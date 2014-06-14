@@ -4,7 +4,7 @@ module ConcertoManykinds
 
     # The engine name will be the name of the class
     # that contains the URL helpers for our routes.
-    engine_name 'template_manykinds'
+    engine_name 'manykindsengine'
 
     def plugin_info(plugin_info_class)
       @plugin_info ||= plugin_info_class.new do
