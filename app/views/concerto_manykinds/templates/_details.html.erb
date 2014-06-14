@@ -1,3 +1,4 @@
+<%= javascript_include_tag "concerto_manykinds/application" %>
 <section class="viewblock">
   <header class="viewblock-header">
 
@@ -21,18 +22,37 @@
           <div class="subblock">
             <div class="default-padding clearfix">
 
+<%= form_for(:bogus) do |f| %>
+
               <% @template.positions.each do |p| %>
-              <h3><%= p.field.name %> Field</h3>
+              <h3><%= "#{p.field.name} #{t('.field')}" %></h3>
               <ul class="list-stacked">
-                <li><i class='icon-star'></i> <%= p.field.kind.name %></li>
+                <li><%= p.field.kind.name %> <i class='icon-star' title="<%=t('.fundamental_kind')%>"></i></li>
                 <% @manykinds.each do |m| %>
                   <% if m.field.id == p.field.id %>
-                    <li><%= m.kind.name %></li>
+                    <li>
+                      <%= m.kind.name %>
+
+    <% if can? :update, @template %>
+      <%= link_to t(:destroy), manykindsengine.manykind_path(m), :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ConcertoManykinds::Manykind.model_name.human, :key => m.kind.name), :type => 'json' }, :method => :delete, :class => "btn btn-small", :remote => true %>
+    <% end %>
+
+                    </li>
                   <% end %>
                 <% end %>
               </ul>
 
               <% end %>
+
+            <%#= link_to_add_position_fields t(:add_model, :model => Kind.model_name.human), f, :positions %>
+
+              <div class="row-fluid manykinds-fields">
+                <div class="span2">
+                  <%#= p.select(:field_id, Field.all.collect {|field| [ field.name, field.id ] }, {}, { :class => 'fillWidth' }) %>
+                </div>
+              </div>
+
+<% end %>
             </div>
           </div>
         </div>

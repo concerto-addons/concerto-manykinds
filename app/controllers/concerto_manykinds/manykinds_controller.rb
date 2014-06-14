@@ -92,21 +92,18 @@ module ConcertoManykinds
     #   end
     # end
   
-    # # DELETE /schedules/1
-    # # DELETE /schedules/1.json
-    # def destroy
-    #   @schedule = Schedule.find(params[:id])
-    #   auth! :action => :update, :object => @schedule.screen
-    #   process_notification(@schedule, {:screen_id => @schedule.screen_id, :screen_name => @schedule.screen.name,
-    #     :template_id => @schedule.template.id, :template_name => @schedule.template.name }, 
-    #     :key => 'concerto_template_scheduling.schedule.destroy', :owner => current_user, :action => 'destroy')
-    #   @schedule.destroy
+    # DELETE /schedules/1
+    # DELETE /schedules/1.json
+    def destroy
+      @manykind = Manykind.find(params[:id])
+      auth! :action => :update, :object => @manykind.template
+      @manykind.destroy
   
-    #   respond_to do |format|
-    #     format.html { redirect_to schedules_url }
-    #     format.json { head :no_content }
-    #   end
-    # end
+      respond_to do |format|
+        format.html { redirect_to manykindsengine.manykinds_url }
+        format.json { head :no_content }
+      end
+    end
 
     # def schedule_params
     #   params.require(:schedule).permit(*ConcertoTemplateScheduling::Schedule.form_attributes)
