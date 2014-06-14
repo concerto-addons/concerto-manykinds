@@ -1,0 +1,12 @@
+en:
+  activerecord:
+    models:
+      concerto_manykinds/manykinds: 'Kinds'
+    attributes:
+      concerto_manykinds/manykinds:
+        field_id: 'Field'
+        template_id: 'Template'
+        kind_id: 'Kind'
+
+  concerto_manykinds:
+    are_you_sure_delete: 'Are you sure you want to remove the mapping of the %{kind} from the %{field} field?'
