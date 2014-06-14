@@ -23,7 +23,7 @@ module ConcertoManykinds
           @manykinds = Manykind.where(:template_id => @template.id)
         end
 
-        add_view_hook "TemplatesController", :details, :partial => "concerto_manykinds/templates/details"
+        add_view_hook "TemplatesController", :sidebar, :partial => "concerto_manykinds/templates/details"
 
         # # show that the template is in use
   
