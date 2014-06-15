@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email       = ["marvin.frederickson@gmail.com"]
   s.homepage    = "https://github.com/mfrederickson/concerto_manykinds"
   s.summary     = "Allow multiple kinds (content types) per template field"
-  s.description = "Provides for displaying multiple types of content in the same template field in Concerto."
+  s.description = "Display multiple types of content in the same template field in Concerto."
 
   s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
