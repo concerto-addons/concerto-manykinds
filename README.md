@@ -11,3 +11,5 @@ To create the proper migrations, run:
 ```
 rails generate concerto_manykinds
 ```
+
+Then go into the templates you want to modify and add the additional kinds in the sidebar.
