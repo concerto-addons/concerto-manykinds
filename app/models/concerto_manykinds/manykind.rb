@@ -11,6 +11,8 @@ module ConcertoManykinds
     validates :template_id, :presence => true
     validates_uniqueness_of :kind_id, :scope => [:template_id, :field_id]
 
+    # TODO dont allow record if already exists in position field mapping
+
     def self.form_attributes
       attributes = [:field_id, :template_id,  :kind_id]
     end
