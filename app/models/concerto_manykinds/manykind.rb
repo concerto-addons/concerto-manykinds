@@ -6,6 +6,11 @@ module ConcertoManykinds
     belongs_to :kind
     belongs_to :template
     
+    validates :field_id, :presence => true
+    validates :kind_id, :presence => true
+    validates :template_id, :presence => true
+    validates_uniqueness_of :kind_id, :scope => [:template_id, :field_id]
+
     def self.form_attributes
       attributes = [:field_id, :template_id,  :kind_id]
     end

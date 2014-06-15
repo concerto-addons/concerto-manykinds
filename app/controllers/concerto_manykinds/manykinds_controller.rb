@@ -51,25 +51,25 @@ module ConcertoManykinds
     #   auth! :action => :update, :object => @schedule.screen
     # end
   
-    # # POST /schedules
-    # # POST /schedules.json
-    # def create
-    #   @schedule = Schedule.new(schedule_params)
-    #   auth! :action => :update, :object => @schedule.screen
-    #   respond_to do |format|
-    #     if @schedule.save
-    #       process_notification(@schedule, {:screen_id => @schedule.screen_id, :screen_name => @schedule.screen.name,
-    #         :template_id => @schedule.template.id, :template_name => @schedule.template.name }, 
-    #         :key => 'concerto_template_scheduling.schedule.create', :owner => current_user, :action => 'create')
-
-    #       format.html { redirect_to @schedule, notice: 'Schedule was successfully created.' }
-    #       format.json { render json: @schedule, status: :created, location: @schedule }
-    #     else
-    #       format.html { render action: "new" }
-    #       format.json { render json: @schedule.errors, status: :unprocessable_entity }
-    #     end
-    #   end
-    # end
+    # POST /schedules
+    # POST /schedules.json
+    def create
+      @manykind = Manykind.new(manykind_params)
+      auth! :action => :update, :object => @manykind.template
+      respond_to do |format|
+        if @manykind.save
+          format.html { redirect_to @manykind, notice: 'Kind was successfully created.' }
+          #format.json { render json: @manykind, status: :created, location: @manykind }
+          format.json do 
+            item_html = render_to_string(:partial => 'concerto_manykinds/templates/item', :object => @manykind, :formats => [:html])
+            render json: { :field_id => @manykind.field.id, :item_html => item_html }, status: :created, location: @manykind 
+          end
+        else
+          format.html { render action: "new" }
+          format.json { render json: @manykind.errors, status: :unprocessable_entity }
+        end
+      end
+    end
   
     # # PUT /schedules/1
     # # PUT /schedules/1.json
@@ -105,8 +105,8 @@ module ConcertoManykinds
       end
     end
 
-    # def schedule_params
-    #   params.require(:schedule).permit(*ConcertoTemplateScheduling::Schedule.form_attributes)
-    # end
+    def manykind_params
+      params.require(:manykind).permit(*ConcertoManykinds::Manykind.form_attributes)
+    end
   end
 end

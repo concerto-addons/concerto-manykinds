@@ -1,0 +1,6 @@
+<li>
+  <%= item.kind.name %>
+  <% if can? :update, item.template %>
+    <%= link_to t(:destroy), manykindsengine.manykind_path(item), :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ConcertoManykinds::Manykind.model_name.human, :key => item.kind.name), :type => 'json' }, :method => :delete, :class => "btn btn-small", :remote => true %>
+  <% end %>
+</li>

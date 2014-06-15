@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag "concerto_manykinds/application" %>
 <%= javascript_include_tag "concerto_manykinds/application" %>
 <section class="viewblock">
   <header class="viewblock-header">
@@ -15,44 +16,44 @@
 
   </header>
   <div class="viewblock-cont">
-
     <div class="row-fluid">
       <div class="span12">
         <div class="default-padding">
           <div class="subblock">
             <div class="default-padding clearfix">
-
-<%= form_for(:bogus) do |f| %>
-
               <% @template.positions.each do |p| %>
               <h3><%= "#{p.field.name} #{t('.field')}" %></h3>
-              <ul class="list-stacked">
+              <ul class="list-stacked manykinds-list" id="manykinds_fld<%=p.field.id%>">
                 <li><%= p.field.kind.name %> <i class='icon-star' title="<%=t('.fundamental_kind')%>"></i></li>
                 <% @manykinds.each do |m| %>
                   <% if m.field.id == p.field.id %>
-                    <li>
-                      <%= m.kind.name %>
-
-    <% if can? :update, @template %>
-      <%= link_to t(:destroy), manykindsengine.manykind_path(m), :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ConcertoManykinds::Manykind.model_name.human, :key => m.kind.name), :type => 'json' }, :method => :delete, :class => "btn btn-small", :remote => true %>
-    <% end %>
-
-                    </li>
+                    <%= render :partial => 'concerto_manykinds/templates/item', :object => m %>
                   <% end %>
                 <% end %>
               </ul>
-
               <% end %>
 
-            <%#= link_to_add_position_fields t(:add_model, :model => Kind.model_name.human), f, :positions %>
-
-              <div class="row-fluid manykinds-fields">
-                <div class="span2">
-                  <%#= p.select(:field_id, Field.all.collect {|field| [ field.name, field.id ] }, {}, { :class => 'fillWidth' }) %>
+              <% if can? :update, @template %>
+                <div class="row-fluid">
+                  <%= form_for(@manykind_new, :url => manykindsengine.manykinds_path, :html => { 'data-type' => 'json'}, :remote => true, :class => 'form', :format => 'json') do |f| %>
+                    <%= f.hidden_field :template_id, :value => @template.id %>
+                    <div class="span4">
+                      <%= f.label :field_id %>
+                      <%= f.collection_select :field_id, Field.all, :id, :name %>
+                    </div>
+                    <div class="span4">
+                      <%= f.label :kind_id %>
+                      <%= f.collection_select :kind_id, Kind.all, :id, :name %>
+                    </div>
+                    <div class="span2">
+                      <label>&nbsp;</label>
+                      <%= f.button t(:add), :class => 'btn btn-small' %>
+                    </div>
                 </div>
-              </div>
+                  <% end %>
+              <% end %>
 
-<% end %>
+
             </div>
           </div>
         </div>

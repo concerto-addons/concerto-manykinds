@@ -4,8 +4,14 @@ var manykinds_handlers_initialized = false;
 
 function attachConcertoManykindsHandlers() {
   if (!manykinds_handlers_initialized) {
-    $('a[data-method="delete"]').on('ajax:success', function (e, data, status, xhr) {
+    $('ul.manykinds-list').on('ajax:success', 'a[data-method="delete"]', function (e, data, status, xhr) {
+console.debug('firing');
       $(this).parent('li').hide();
+    });
+
+    $('form[id="new_manykind"]').on('ajax:success', function (e, data, status, xhr) {
+      // show the new item
+      $("#manykinds_fld" + data["field_id"]).append(data["item_html"]);
     });
 
     console.debug('manykinds handlers initialized');

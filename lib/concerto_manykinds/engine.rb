@@ -21,6 +21,7 @@ module ConcertoManykinds
 
         add_controller_hook "TemplatesController", :show, :before do
           @manykinds = Manykind.where(:template_id => @template.id)
+          @manykind_new = Manykind.new
         end
 
         add_view_hook "TemplatesController", :sidebar, :partial => "concerto_manykinds/templates/details"
