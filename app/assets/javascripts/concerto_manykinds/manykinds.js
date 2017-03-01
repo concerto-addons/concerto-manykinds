@@ -19,6 +19,5 @@ console.debug('firing');
   }
 }
 
-$(document).ready(attachConcertoManykindsHandlers);
-$(document).on('page:change', attachConcertoManykindsHandlers);
+$(document).on('turbolinks:load', attachConcertoManykindsHandlers);
 
