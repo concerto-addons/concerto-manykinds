@@ -1,24 +1,41 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
-var manykinds_handlers_initialized = false;
+var ConcertoManykinds = {
+  _initialized: false,
 
-function attachConcertoManykindsHandlers() {
-  if (!manykinds_handlers_initialized) {
-    $('ul.manykinds-list').on('ajax:success', 'a[data-method="delete"]', function (e, data, status, xhr) {
-console.debug('firing');
-      $(this).parent('li').hide();
-    });
+  clearAlert: function() {
+    $('#manykind-alert').addClass('hide');
+    $('#manykind-alert h4').innerText = '';
+  },
 
-    $('form[id="new_manykind"]').on('ajax:success', function (e, data, status, xhr) {
-      // show the new item
-      $("#manykinds_fld" + data["field_id"]).append(data["item_html"]);
-    });
+  initHandlers: function () {
+    if (!ConcertoManykinds._initialized) {
+      // clear alerts on button/link
+      $(document).on('click', 'ul.manykinds-list .mk-delete', ConcertoManykinds.clearAlert);
+      $(document).on('click', 'form[id="new_manykind"] .mk-add', ConcertoManykinds.clearAlert);
 
-    console.debug('manykinds handlers initialized');
-    manykinds_handlers_initialized = true;
+      $('ul.manykinds-list').on('ajax:success', 'a[data-method="delete"]', function (e, data, status, xhr) {
+        console.debug('firing');
+        $(this).parent('li').hide();
+      });
+
+      $('form[id="new_manykind"]').on('ajax:success', function (e, data, status, xhr) {
+        // show the new item
+        $("#manykinds_fld" + data["field_id"]).append(data["item_html"]);
+      });
+      $('form[id="new_manykind"]').on('ajax:error', function (e, data, status, xhr) {
+        console.debug(data.responseJSON.kind_id.join(', '));
+        ConcertoManykinds.showAlert(data.responseJSON.kind_id.join(', '));
+      });
+
+      console.debug('manykinds handlers initialized');
+      ConcertoManykinds._initialized = true;
+    }
+  },
+
+  showAlert: function (msg) {
+    $('#manykind-alert h4').text(msg);
+    $('#manykind-alert').removeClass('hide');
   }
 }
 
-$(document).ready(attachConcertoManykindsHandlers);
-$(document).on('page:change', attachConcertoManykindsHandlers);
-
+$(document).ready(ConcertoManykinds.initHandlers);
+$(document).on('page:change', ConcertoManykinds.initHandlers);

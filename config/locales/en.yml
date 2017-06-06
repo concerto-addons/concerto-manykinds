@@ -9,6 +9,8 @@ en:
         kind_id: 'Kind'
 
   concerto_manykinds:
+    already_mapped: 'That kind is already mapped to that field'
+    already_mapped_via_template:  'The %{kind} kind is already mapped to field %{field} via the template definition'
     are_you_sure_delete: 'Are you sure you want to remove the mapping of the %{kind} from the %{field} field?'
 
     templates:
